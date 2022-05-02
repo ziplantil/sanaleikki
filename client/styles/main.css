@@ -1,0 +1,295 @@
+html {
+  background: #151515;
+  color: #f0f0f0;
+  font-family: sans-serif;
+  font-size: 100%;
+}
+@media screen and (min-width: 1000px) {
+  html {
+    font-size: 125%;
+  }
+  .round-card.single {
+    font-size: 150%;
+  }
+}
+body {
+  margin: 1em auto;
+  max-width: 700px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+header nav, .button {
+  cursor: pointer;
+  padding: 10px;
+  background: #444;
+  border-radius: 0.75em;
+  width: 1em;
+  height: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header h1 {
+  font-weight: bold;
+  font-size: 125%;
+  text-transform: uppercase;
+}
+div.window {
+  position: absolute;
+  top: 4em;
+  width: 80%;
+  max-width: 600px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #888;
+  border-radius: 5px;
+  opacity: 0.9;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  padding: 1em;
+}
+.float-right {
+  float: right;
+}
+.countdown {
+  color: #999;
+  font-size: 150%;
+  font-family: monospace;
+}
+main h1, main h2, main h3, main h4, main h5, main h6,
+  .window h1, .window h2, .window h3, .window h4, .window h5, .window h6 {
+  text-align: center;
+}
+main table, .full-width {
+  width: 100%;
+}
+main table td {
+  border: 1px solid #333;
+  padding: 0.25em;
+}
+td.right {
+  text-align: right;
+}
+main p {
+  text-align: center;
+}
+button {
+  border: 2px solid #888;
+  cursor: pointer;
+  padding: 10px;
+  background: #555;
+  border-radius: 1em;
+  color: #eee;
+  font-size: 100%;
+  font-family: sans-serif;
+}
+button:disabled {
+  background: #333;
+  color: #888;
+  cursor: not-allowed;
+}
+.center {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.tile {
+  width: 4.5vmin;
+  height: 4.5vmin;
+  min-width: 4.5vmin;
+  min-height: 4.5vmin;
+  max-width: 4.5vmin;
+  max-height: 4.5vmin;
+  border: 1px solid #888;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px;
+  padding: calc(3px + 0.1875em);
+  font-size: 4.5vmin;
+  user-select: none;
+}
+.window .tile {
+  font-size: 2.25vmin;
+  padding: 5px;
+}
+.window.help {
+  font-size: 80%;
+}
+.tile.current {
+  color: #151515;
+  background: #f0f0f0;
+}
+.banner {
+  height: 4vmin;
+  width: 8px;
+  min-width: 8px;
+}
+.banner.wordOk {
+  background: #44ff44;
+}
+.banner.endOfLine {
+  background: #ffffff;
+}
+div.letters .tile {
+  color: #fff;
+  background: #444;
+  font-weight: bold;
+}
+div.letters .tile#d1 { background: #858d13; }
+div.letters .tile#d2 { background: #e00505; }
+div.letters .tile#d3 { background: #4d2374; }
+div.letters .tile#d4 { background: #e70992; }
+div.letters .tile#d5 { background: #242a31; }
+div.letters .tile#d6 { background: #0d72ec; }
+div.letters .tile#d7 { background: #7e5628; }
+div.letters .tile#d8 { background: #c9860a; }
+div.letters .tile#d9 { background: #14b80e; }
+
+#round-results {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.round-card {
+  background: #333;
+  border: 1px solid #666;
+  border-radius: 1em;
+  margin: 5px;
+  padding: 5px;
+  width: calc(25% - 5px);
+  min-width: 18em;
+  font-size: 10pt;
+}
+.round-card td {
+  height: 1em;
+}
+.round-card-header {
+  color: #bbb;
+}
+.round-card-center {
+  text-align: center;
+}
+.round-card-right {
+  text-align: right;
+}
+.round-card-word-ok {
+  color: #44ff44;
+}
+.round-card-word-duplicate {
+  color: #888;
+  text-decoration: line-through;
+}
+.round-card-word-unknown {
+  color: #f44;
+}
+.round-card-word-wrongletters {
+  color: #ed1;
+  text-decoration: line-through;
+}
+.round-card-word-wronglength {
+  color: #a11;
+  text-decoration: line-through;
+}
+.round-card-word-penalty {
+  color: #ff3333;
+}
+.round-card-monospace {
+  font-family: monospace;
+}
+.round-card-player-name {
+  color: #bbb;
+  font-weight: bold;
+}
+span.radio-button {
+  border: 2px solid #888;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  user-select: none;
+  background: #151515;
+  color: #eee;
+  font-size: 100%;
+  font-family: sans-serif;
+}
+span.radio-button.active {
+  background: #eee;
+  color: #151515;
+}
+table.settings td {
+  padding: 3px;
+}
+input[type="number"] {
+  border: 2px solid #888;
+  background: #151515;
+  color: #eee;
+  font-size: 100%;
+  font-family: sans-serif;
+  text-align: right;
+}
+.multiplayer-input {
+  border: 2px solid #888;
+  background: #151515;
+  color: #eee;
+  font-size: 100%;
+  font-family: sans-serif;
+  text-align: center;
+}
+.monospace {
+  font-family: monospace;
+}
+.player-list {
+  width: 100%;
+  text-align: center;
+}
+.player-list td {
+  height: 1em;
+  min-height: 1em;
+}
+.keyboard {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0.95;
+  max-height: 30%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  user-select: none;
+}
+.keyrow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.key {
+  cursor: pointer;
+  padding: 5px;
+  background: #444;
+  border-radius: 0.75em;
+  font-size: min(5vmin, 30pt);
+  width: 0.95em;
+  height: 2em;
+  margin: 0.15em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.key-bksp {
+  width: 1.5em;
+}
+.key-enter {
+  width: 2.5em;
+}
