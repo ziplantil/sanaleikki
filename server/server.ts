@@ -1,20 +1,20 @@
-import WebSocket from 'ws';
-import SanaleikkiGameServer from './gameserver';
-import { v4 as uuidv4 } from 'uuid';
+import WebSocket from 'ws'
+import SanaleikkiGameServer from './gameserver'
+import { v4 as uuidv4 } from 'uuid'
 
 type ClientSocket = WebSocket.WebSocket & { isAlive: boolean, uuid: string }
 
-const game: SanaleikkiGameServer = new SanaleikkiGameServer();
+const game: SanaleikkiGameServer = new SanaleikkiGameServer()
 
-const usedUuids = new Set<string>();
+const usedUuids = new Set<string>()
 
 function reserveUuid(): string {
-  let uuid: string;
+  let uuid: string
   do {
-    uuid = uuidv4();
+    uuid = uuidv4()
   } while (usedUuids.has(uuid))
   usedUuids.add(uuid)
-  return uuid;
+  return uuid
 }
 
 export function sanaleikkiConnectHandler(server: WebSocket.Server) {
@@ -33,13 +33,13 @@ export function sanaleikkiConnectHandler(server: WebSocket.Server) {
       sock.isAlive = false
       sock.ping(noop)
     })
-  }, 10000);
+  }, 10000)
 
   return (sock: ClientSocket) => {
-    const uuid = reserveUuid();
+    const uuid = reserveUuid()
     sock.uuid = uuid
     sock.isAlive = true
-    sock.on('pong', () => { sock.isAlive = true; })
+    sock.on('pong', () => { sock.isAlive = true })
     sock.on('close', () => {
       game.quit(uuid)
       usedUuids.delete(uuid)

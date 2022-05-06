@@ -7,9 +7,9 @@ export enum GameState {
 }
 
 export default class TopState {
-  settingsAvailable = true;
-  helpOpen = false;
-  settingsOpen = false;
-  state: GameState = GameState.MainMenu;
-  wordListLoaded = false;
+  settingsAvailable = true
+  helpOpen = false
+  settingsOpen = false
+  state: GameState = GameState.MainMenu
+  wordListLoaded = false
 }

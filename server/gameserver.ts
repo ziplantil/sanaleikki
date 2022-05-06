@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken"
-import { cleanUpPlayerName, isValidPlayerName, PlayerEnteredWords, ScoreTable } from "../common/game";
-import Options, { validateOptions } from "../common/options";
-import SanaleikkiGame from "./game";
+import { cleanUpPlayerName, isValidPlayerName, PlayerEnteredWords, ScoreTable } from "../common/game"
+import Options, { validateOptions } from "../common/options"
+import SanaleikkiGame from "./game"
 
-const JWT_SECRET = process.env.JWT_SECRET || '';
+const JWT_SECRET = process.env.JWT_SECRET || ''
 
 function newGameCode(codeLength: number): string {
-  return [...Array(codeLength).keys()].map(() => String((Math.random() * 10) | 0)).join("");
+  return [...Array(codeLength).keys()].map(() => String((Math.random() * 10) | 0)).join("")
 }
 
 const sendData = (socket: any, data: any) => {
@@ -14,9 +14,9 @@ const sendData = (socket: any, data: any) => {
 }
 
 export default class SanaleikkiGameServer {
-  games: Map<string, SanaleikkiGame> = new Map<string, SanaleikkiGame>();
-  uuidInGame: Map<string, string> = new Map<string, string>();
-  uuidToSocket: Map<string, any> = new Map<string, any>();
+  games: Map<string, SanaleikkiGame> = new Map<string, SanaleikkiGame>()
+  uuidInGame: Map<string, string> = new Map<string, string>()
+  uuidToSocket: Map<string, any> = new Map<string, any>()
 
   message(socket: any, dataString: any): void {
     let data
@@ -30,10 +30,10 @@ export default class SanaleikkiGameServer {
     if (!this.uuidToSocket.has(uuid)) {
       this.uuidToSocket.set(uuid, socket)
     }
-    const token = data["token"];
-    const type = data["type"];
+    const token = data["token"]
+    const type = data["type"]
     if (!token) {
-      let nick = data["nick"];
+      let nick = data["nick"]
       if (!isValidPlayerName(nick)) {
         sendData(socket, {
           "type": "error",
@@ -50,7 +50,7 @@ export default class SanaleikkiGameServer {
           code = newGameCode(codeLength)
         } while (this.games.has(code))
 
-        const options: Options = { ...new Options(), ...data["options"] };
+        const options: Options = { ...new Options(), ...data["options"] }
         if (!validateOptions(options)) {
           sendData(socket, {
             "type": "error",
@@ -80,7 +80,7 @@ export default class SanaleikkiGameServer {
           "token": jwt.sign(uuid, JWT_SECRET),
         })
       } else if (type === "join") {
-        const code = data["code"];
+        const code = data["code"]
         if (!this.games.has(code)) {
           sendData(socket, {
             "type": "error",
@@ -165,8 +165,8 @@ export default class SanaleikkiGameServer {
   }
 
   send(uuid: string, data: any): void {
-    const socket: any = this.uuidToSocket.get(uuid);
-    if (socket) sendData(socket, data);
+    const socket: any = this.uuidToSocket.get(uuid)
+    if (socket) sendData(socket, data)
   }
 
   sendPlayers(uuid: string, players: string[]): void {
