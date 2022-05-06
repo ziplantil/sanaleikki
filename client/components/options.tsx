@@ -92,10 +92,10 @@ const OptionsWindow = (props) => {
         <div className="optionrow">
           <span>{optionNames["penalties"]}</span>
           <span className="radiobuttonrow">
-            <RadioButton option={props.options.minimumWordLength}
+            <RadioButton option={props.options.penalties}
               update={value => props.setOptions({ ...props.options, penalties: value })}
               value={true}>On</RadioButton>
-            <RadioButton option={props.options.minimumWordLength}
+            <RadioButton option={props.options.penalties}
               update={value => props.setOptions({ ...props.options, penalties: value })}
               value={false}>Ei</RadioButton>
           </span>

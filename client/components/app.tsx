@@ -118,7 +118,7 @@ const App = (props) => {
       updateScores: scores => setScore(scores),
       shareCode: code => setGamecode(code),
       isNowTheHost: () => setIsHost(true),
-      gotCall: () => setRoundOver(true),
+      gotCall: () => setRoundOver(topState.state == GameState.Round),
       roundResults: (words, scores) => {
         setEnteredWords(words)
         setScore(scores)
