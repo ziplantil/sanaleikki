@@ -56,12 +56,7 @@ export default class GameMulti implements GameProxy {
     this.host = code === null
     this.roundCallback = null
 
-    const wsproto = document.location.protocol.replace('http', 'ws')
-    let port = document.location.port
-    if (port) {
-      port = `:${port}`
-    }
-    this.ws = new WebSocket(`${wsproto}//${document.location.hostname}${port}${document.location.pathname}`)
+    this.ws = new WebSocket(document.location.origin.replace(/^http/, 'ws'))
 
     this.ws.addEventListener('open', () => this.onSocketOpen())
     this.ws.addEventListener('close', e => this.onSocketClose(e))

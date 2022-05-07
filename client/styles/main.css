@@ -120,6 +120,22 @@ button:disabled {
   font-size: 2.25vmin;
   padding: 5px;
 }
+@media screen and (max-width: 1000px) {
+  main .tile {
+    width: 6vmin;
+    height: 6vmin;
+    min-width: 6vmin;
+    min-height: 6vmin;
+    max-width: 6vmin;
+    max-height: 6vmin;
+    font-size: 6vmin;
+    padding: 3px;
+  }
+  .window .tile {
+    font-size: 6vmin;
+    padding: 8px;
+  }
+}
 .window.help {
   font-size: 80%;
 }
