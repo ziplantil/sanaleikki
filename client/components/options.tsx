@@ -1,13 +1,14 @@
 import React from "react";
 import Window from './window';
 import Difficulty from '../../common/difficulty';
+import { DiceType } from '../../common/dice'
 import Options from '../../common/options';
-import { formatDifficulty, formatMinutesSeconds } from '../util/optionformat';
+import { formatBoolean, formatDifficulty, formatMinutesSeconds, formatDiceType } from '../util/optionformat';
 
 const RadioButton = (props) => (
   <span className={props.option === props.value ? "radio-button active" : "radio-button"}
     onClick={() => props.update(props.value)}>
-    {props.children}
+    {props.format ? props.format(props.value) : props.children}
   </span>
 );
 
@@ -32,7 +33,10 @@ export const optionList: OptionInfo[] = [
     "format": (n: number) => `${n} kirjainta` },
   { "key": "penalties",
     "text": "Miinuspisteet",
-    "format": (flag: boolean) => flag ? "On" : "Ei" },
+    "format": formatBoolean },
+  { "key": "diceType",
+    "text": "Nopat",
+    "format": formatDiceType },
 ]
 
 const optionNames: {[key: string]: string} = Object.fromEntries(optionList.map(info => [info.key, info.text]))
@@ -47,13 +51,13 @@ const OptionsWindow = (props) => {
           <span className="radiobuttonrow">
             <RadioButton option={props.options.difficulty}
               update={value => props.setOptions({ ...props.options, difficulty: value })}
-              value={Difficulty.Easy}>Helppo</RadioButton>
+              value={Difficulty.Easy} format={formatDifficulty}></RadioButton>
             <RadioButton option={props.options.difficulty}
               update={value => props.setOptions({ ...props.options, difficulty: value })}
-              value={Difficulty.Medium}>Keskivaikea</RadioButton>
+              value={Difficulty.Medium} format={formatDifficulty}></RadioButton>
             <RadioButton option={props.options.difficulty}
               update={value => props.setOptions({ ...props.options, difficulty: value })}
-              value={Difficulty.Hard}>Vaikea</RadioButton>
+              value={Difficulty.Hard} format={formatDifficulty}></RadioButton>
           </span>
         </div>
         <div className="optionrow">
@@ -94,10 +98,21 @@ const OptionsWindow = (props) => {
           <span className="radiobuttonrow">
             <RadioButton option={props.options.penalties}
               update={value => props.setOptions({ ...props.options, penalties: value })}
-              value={true}>On</RadioButton>
+              value={true} format={formatBoolean}></RadioButton>
             <RadioButton option={props.options.penalties}
               update={value => props.setOptions({ ...props.options, penalties: value })}
-              value={false}>Ei</RadioButton>
+              value={false} format={formatBoolean}></RadioButton>
+          </span>
+        </div>
+        <div className="optionrow">
+          <span>{optionNames["diceType"]}</span>
+          <span className="radiobuttonrow">
+            <RadioButton option={props.options.diceType}
+              update={value => props.setOptions({ ...props.options, diceType: value })}
+              value={DiceType.Classic} format={formatDiceType}></RadioButton>
+            <RadioButton option={props.options.diceType}
+              update={value => props.setOptions({ ...props.options, diceType: value })}
+              value={DiceType.Modern} format={formatDiceType}></RadioButton>
           </span>
         </div>
       </div>

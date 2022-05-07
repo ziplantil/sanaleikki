@@ -99,6 +99,10 @@ export default class GameMulti implements GameProxy {
     return this.host
   }
 
+  isMultiplayer(): boolean {
+    return true
+  }
+
   send(data: any): void {
     this.ws.send(JSON.stringify(data))
   }
@@ -139,6 +143,8 @@ export default class GameMulti implements GameProxy {
     } else if (type === "host") {
       this.host = true
       this.callbacks.isNowTheHost()
+    } else if (type === "alarm") {
+      this.callbacks.roundStart(data["round"])
     } else if (type === "call") {
       this.callbacks.gotCall()
     } else if (type === "finish") {

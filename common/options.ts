@@ -1,4 +1,5 @@
 import Difficulty from './difficulty'
+import { DiceType } from './dice'
 
 export function validateOptions(options: Options): boolean {
   if (options.difficulty !== Difficulty.Easy
@@ -15,6 +16,10 @@ export function validateOptions(options: Options): boolean {
   if (options.minimumWordLength < 4 || options.minimumWordLength > 5) {
     return false
   }
+  if (options.diceType !== DiceType.Classic
+      && options.diceType !== DiceType.Modern) {
+    return false
+  }
   return true
 }
 
@@ -24,4 +29,5 @@ export default class Options {
   rounds = 1
   minimumWordLength = 4
   penalties = true
+  diceType: DiceType = DiceType.Classic
 }

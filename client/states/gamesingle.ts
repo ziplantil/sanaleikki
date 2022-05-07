@@ -38,7 +38,7 @@ export default class GameSingle implements GameMedium, GameProxy {
   nextRound(): void { }
 
   startRound(callback: (letters: string[]) => void): void {
-    callback(this.game.startRound())
+    window.requestAnimationFrame(() => callback(this.game.startRound(0)))
   }
 
   endRound(words: string[]): void {
@@ -49,5 +49,9 @@ export default class GameSingle implements GameMedium, GameProxy {
 
   isHost(): boolean {
     return true
+  }
+
+  isMultiplayer(): boolean {
+    return false
   }
 }

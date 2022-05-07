@@ -4,4 +4,5 @@ export default interface GameProxy {
   endRound: (words: string[]) => void;
   finalize: () => void;
   isHost: () => boolean;
+  isMultiplayer: () => boolean;
 }

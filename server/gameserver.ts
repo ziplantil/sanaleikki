@@ -176,6 +176,13 @@ export default class SanaleikkiGameServer {
     })
   }
 
+  sendAlarm(uuid: string, roundNum: number): void {
+    this.send(uuid, {
+      "type": "alarm",
+      "round": roundNum,
+    })
+  }
+
   sendLetters(uuid: string, letters: string[], roundNum: number): void {
     this.send(uuid, {
       "type": "round",

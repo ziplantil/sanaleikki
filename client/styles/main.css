@@ -101,19 +101,19 @@ button:disabled {
   justify-content: center;
 }
 .tile {
-  width: 4.5vmin;
-  height: 4.5vmin;
-  min-width: 4.5vmin;
-  min-height: 4.5vmin;
-  max-width: 4.5vmin;
-  max-height: 4.5vmin;
+  width: 3vmin;
+  height: 3vmin;
+  min-width: 3vmin;
+  min-height: 3vmin;
+  max-width: 3vmin;
+  max-height: 3vmin;
   border: 1px solid #888;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 3px;
   padding: calc(3px + 0.1875em);
-  font-size: 4.5vmin;
+  font-size: 3vmin;
   user-select: none;
 }
 .window .tile {
@@ -302,4 +302,10 @@ input[type="number"] {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.seconds {
+  text-align: center;
+  font-weight: bold;
+  font-size: 10vh;
+  text-transform: uppercase;
 }

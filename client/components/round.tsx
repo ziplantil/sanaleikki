@@ -8,7 +8,7 @@ const isMobile = isMobileFn()
 
 const Countdown = (props) => {
   const [time, setTime] = useState(Date.now());
-  const remaining = Math.round((props.end - time) / 1000) | 0;
+  const remaining = Math.ceil((props.end - time) / 1000) | 0;
   useEffect(() => {
     const interval = setInterval(() => setTime(Date.now()), 100);
     return () => clearInterval(interval);
@@ -16,6 +16,9 @@ const Countdown = (props) => {
   if (props.end <= time) {
     window.requestAnimationFrame(() => props.over());
     return null
+  }
+  if (props.seconds) {
+    return <p className={props.className}>{remaining}</p>
   }
   return <p className={props.className}>{formatMinutesSeconds(remaining)}</p>
 }
@@ -25,7 +28,8 @@ const Round = (props) => {
   const [letterOrder, setLetterOrder] = useState([]);
   const [submitOk, setSubmitOk] = useState(false);
   const [words, setWords] = useState([]);
-  const [roundTimeout] = useState(Date.now() + props.options.roundTime * 1000);
+  const [roundTimeout, setRoundTimeout] = useState(Date.now() + 3000);
+  const [showSeconds, setShowSeconds] = useState(true);
 
   const doEndRound = () => {
     props.endRound(words)
@@ -37,19 +41,41 @@ const Round = (props) => {
   }
 
   useEffect(() => {
+    const title = document.title
     props.startRound(letters => {
       const order = [...Array(letters.length + 1).keys()].slice(1)
       new RandomSource().shuffle(order)
-      setLetterOrder(order);
+      setRoundTimeout(Date.now() + props.options.roundTime * 1000)
+      setLetterOrder(order)
       setLetters(letters)
+      document.title = `(${props.roundNum}/${props.options.rounds}) ${title}`
     })
-  }, []);
+    return () => { document.title = title }
+  }, [])
 
   useEffect(() => {
     if (props.roundOver) {
       doEndRound();
     }
-  }, [props.roundOver]);
+  }, [props.roundOver])
+
+  useEffect(() => {
+    if (!letters && props.isMultiplayer && document.hidden !== false) {
+      const title = document.title
+      let toggle = false
+      let counter = 6
+      const interval = setInterval(() => {
+        if (!counter) {
+          document.title = title
+          clearInterval(interval)
+        } else {
+          --counter
+          document.title = (toggle ? "[!!]" : "----") + " " + title
+          toggle = !toggle
+        }
+      }, 400)
+    }
+  }, [letters])
 
   const focusSubmit = () => {
     const submit = document.getElementById("submit");
@@ -77,22 +103,30 @@ const Round = (props) => {
           {letterTiles}
         </div>
         <hr />
-        <WordEntry letterCount={letters.length}
-          updateWords={updateWords}
-          focusSubmit={focusSubmit} />
-        <hr />
-        <div className="center">
-          <button disabled={!submitOk} onClick={doEndRound} id="submit">STOP!</button>
+        <div id="focusNoOutside" onBlur={() => document.getElementById("focusNoOutside").focus()}>
+          <WordEntry letterCount={letters.length}
+            updateWords={updateWords}
+            focusSubmit={focusSubmit} />
+          <hr />
+          <div className="center">
+            <button disabled={!submitOk} onClick={doEndRound} id="submit">STOP!</button>
+          </div>
         </div>
         {isMobile && (<div style={{ "height": "35vh" }}>
           <br />
         </div>)}
       </>
     )
-  } else {
+  } else if (props.isMultiplayer) {
     return (
-      <h1>Odotetaan kierroksen alkua...</h1>
+      <>
+        <h1>Odotetaan kierroksen alkua...</h1>
+        {showSeconds && <Countdown className="seconds" seconds={true}
+                         end={roundTimeout} over={() => setShowSeconds(false)} />}
+      </>
     )
+  } else {
+    return <></>
   }
 };
 

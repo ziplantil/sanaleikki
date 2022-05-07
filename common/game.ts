@@ -80,7 +80,7 @@ export default class Game {
     this.roundNumber = 0
   }
 
-  startRound(): string[] {
+  startRound(buffer: number): string[] {
     if (this.letters) {
       throw "Round already started"
     }
@@ -89,7 +89,7 @@ export default class Game {
     }
     --this.roundsLeft
     ++this.roundNumber
-    this.roundTimeout = setTimeout(() => this.medium.timeout(), this.options.roundTime * 1000)
+    this.roundTimeout = setTimeout(() => this.medium.timeout(), this.options.roundTime * 1000 + buffer)
     this.letters = cleanUpLetters(getDice(this.options).generate(this.randomSource))
     return this.letters
   }

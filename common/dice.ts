@@ -1,8 +1,13 @@
 
 import Difficulty from './difficulty'
-import { isConsonant, isVowel, VOWEL_REGEX, EASY_VOWEL_REGEX, HARD_VOWEL_REGEX, CONSONANT_REGEX } from './letter'
+import { isConsonant, isVowel, isEasyVowel, VOWEL_REGEX, EASY_VOWEL_REGEX, HARD_VOWEL_REGEX, CONSONANT_REGEX } from './letter'
 import Options from './options'
 import RandomSource from './random'
+
+export enum DiceType {
+  Classic,
+  Modern
+}
 
 export interface SanaleikkiDice {
   readonly count: number;
@@ -152,11 +157,95 @@ export class ClassicSanaleikkiDice implements SanaleikkiDice {
         return diceRolls.map(roll => roll[0])
       }
       case Difficulty.Hard:
-        return dice.map(options => random.pickCharacter(options))
+      {
+        let vowelCount
+        let diceRolls
+        do {
+          diceRolls = dice.map(options => firstRoll(options))
+          vowelCount = diceRolls.
+            map(([letter]) => letter).
+            filter(letter => isVowel(letter)).length
+        } while (vowelCount < 2 || vowelCount > 7)
+        return diceRolls.map(roll => roll[0])
+      }
+    }
+  }
+}
+
+export class ModernSanaleikkiDice implements SanaleikkiDice {
+  private difficulty: Difficulty
+  readonly count: number = 9
+
+  constructor(difficulty: Difficulty) {
+    this.difficulty = difficulty
+  }
+
+  generate(random: RandomSource): string[] {
+    const vowelMultiplier = 1.07387676
+    const vowelCounts: {[letter: string]: number} = {
+      "A": 457350,
+      "I": 421366,
+      "E": 323087,
+      "O": 208923,
+      "U": 196678,
+      "Ä": 189134,
+      "Y": 71316
+    }
+    const consonantCounts: {[letter: string]: number} = {
+      "T": 388711,
+      "N": 341181,
+      "S": 309350,
+      "L": 226627,
+      "K": 207520,
+      "M": 137972,
+      "V": 96316,
+      "R": 85116,
+      "J": 75961,
+      "H": 71733,
+      "P": 65358,
+    }
+    
+    switch (this.difficulty) {
+      case Difficulty.Easy:
+      {
+        const vowelCount = random.randomInteger(4, 5)
+        const easyVowelCounts = Object.fromEntries([...Object.keys(vowelCounts)].filter(isEasyVowel).map(vowel => [vowel, vowelCounts[vowel]]))
+        const vowelRun = [...Array(vowelCount)].map(() => random.pickFromDistribution(easyVowelCounts))
+        const consonantRun = [...Array(this.count - vowelCount)].map(() => random.pickFromDistribution(consonantCounts))
+        return [ ...vowelRun, ...consonantRun ]
+      }
+      case Difficulty.Medium:
+      {
+        const vowelCount = random.randomInteger(3, 6)
+        const vowelRun = [...Array(vowelCount)].map(() => random.pickFromDistribution(vowelCounts))
+        const consonantRun = [...Array(this.count - vowelCount)].map(() => random.pickFromDistribution(consonantCounts))
+        return [ ...vowelRun, ...consonantRun ]
+      }
+      case Difficulty.Hard:
+      {
+        const combinedCounts = { ...Object.fromEntries([...Object.keys(vowelCounts)].map(vowel => [vowel, vowelCounts[vowel] * vowelMultiplier])),
+                                 ...consonantCounts }
+        let diceRolls = [...Array(this.count)].map(() => random.pickFromDistribution(combinedCounts))
+        const vowelCount = diceRolls.
+          map(([letter]) => letter).
+          filter(letter => isVowel(letter)).length
+        if (vowelCount < 2 || vowelCount > 7) {
+          const vowelCount = random.randomInteger(2, 7)
+          const vowelRun = [...Array(vowelCount)].map(() => random.pickFromDistribution(vowelCounts))
+          const consonantRun = [...Array(this.count - vowelCount)].map(() => random.pickFromDistribution(consonantCounts))
+          diceRolls = [ ...vowelRun, ...consonantRun ]
+        }
+        return diceRolls
+      }
     }
   }
 }
 
 export function getDice(options: Options) : SanaleikkiDice {
-  return new ClassicSanaleikkiDice(options.difficulty)
+  switch (options.diceType) {
+    case DiceType.Classic:
+      return new ClassicSanaleikkiDice(options.difficulty)
+    case DiceType.Modern:
+      return new ModernSanaleikkiDice(options.difficulty)
+  }
 }

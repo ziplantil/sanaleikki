@@ -86,11 +86,12 @@ export default class SanaleikkiGame implements GameMedium {
       return
     }
 
-    const letters = this.game.startRound()
+    const letters = this.game.startRound(3100) // 3 seconds for start of round, 100 ms for buffer
     if (!letters.length) {
       this.players.forEach(player => this.server.endOfGame(player.uuid))
     } else {
-      this.players.forEach(player => this.server.sendLetters(player.uuid, letters, roundNumber + 1))
+      this.players.forEach(player => this.server.sendAlarm(player.uuid, roundNumber + 1))
+      setTimeout(() => this.players.forEach(player => this.server.sendLetters(player.uuid, letters, roundNumber + 1)), 3000)
     }
   }
 
