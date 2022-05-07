@@ -5,11 +5,8 @@ html {
   font-size: 100%;
 }
 @media screen and (min-width: 1000px) {
-  html {
-    font-size: 125%;
-  }
   .round-card.single {
-    font-size: 150%;
+    font-size: 125%;
   }
 }
 body {
