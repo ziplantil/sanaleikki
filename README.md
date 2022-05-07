@@ -10,9 +10,10 @@ Projekti on vielä tekeillä. Yksinpeli toimii ja moninpeli jotenkuten.
 `npm install` asentaa kaiken tarpeellisen, jonka jälkeen `npm run run` kääntää
 ja käynnistää palvelimen, mutta sitä ennen tarvitset kaksi asiaa:
 
-* `.env`-tiedoston tai ympäristömuuttujan, joka kertoo portin (`PORT`) ja
-  sisältää jonkin merkkijonon, jonka pitää pysyä salaisena (`JWT_SECRET`) ja
-  joka voi olla esimerkiksi satunnaisesti luotu.
+* `.env`-tiedoston tai ympäristömuuttujan, jossa pitää olla:
+  * portti (`PORT`)
+  * jokin merkkijono, jonka pitää pysyä salaisena (`JWT_SECRET`) ja
+    joka voi olla esimerkiksi satunnaisesti luotu.
 * Sanalistan, joka laitetaan public-kansioon nimellä `sanat.txt`.
   Tekijänoikeussyistä tämän mukana ei tule valmista sanalistaa. Sanalistan
   muodon on oltava sellainen, että joka rivillä on vain sana, kuten esimerkiksi

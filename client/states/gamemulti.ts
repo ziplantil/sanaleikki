@@ -65,7 +65,7 @@ export default class GameMulti implements GameProxy {
 
     this.ws.addEventListener('open', () => this.onSocketOpen())
     this.ws.addEventListener('close', e => this.onSocketClose(e))
-    this.ws.addEventListener('error', e => this.onSocketError(e))
+    //this.ws.addEventListener('error', e => this.onSocketError(e))
     this.ws.addEventListener('message', e => this.receive(e.data))
   }
 
@@ -116,7 +116,7 @@ export default class GameMulti implements GameProxy {
     }
     const type = data["type"]
     if (type === "error") {
-      this.onSocketError(data["error"] || "Tuntematon virhe")
+      this.gotError(data["error"] || "Tuntematon virhe")
     } else if (type === "joined") {
       const code = data["code"]
       if (!this.code)
@@ -170,10 +170,10 @@ export default class GameMulti implements GameProxy {
     }
   }
 
-  onSocketError(event: Event): void {
+  gotError(message: string): void {
     if (this.finalized) return
     this.failure = true
-    this.callbacks.gameError(String(event))
+    this.callbacks.gameError(message)
   }
 
   onSocketClose(event: CloseEvent): void {

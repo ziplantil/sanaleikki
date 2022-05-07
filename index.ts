@@ -18,6 +18,4 @@ app.use(express.static('public'))
 const server: http.Server = http.createServer(app)
 const wss: WebSocket.Server = new WebSocket.Server({ server })
 wss.on('connection', sanaleikkiConnectHandler(wss))
-server.listen(port, () => {
-  console.log(`https://localhost:${port}`)
-})
+server.listen(port, () => console.log(`https://localhost:${port}`))
