@@ -24,7 +24,7 @@ kana
 koira
 ```
 
-Sanojen pitäisi samat säännöt kuin pelin ohjeessakin:
+Sanojen pitäisi täyttää samat ehdot kuin pelin ohjeessakin:
 * ei erisnimiä
 * ei lyhenteitä (paitsi _luomu_-tyyppiset jotka voi ääntää sellaisenaan)
 * ei erikoismerkkejä
